@@ -22,6 +22,7 @@ model User {
   lastname  String?
   posts     Post[]
   role      Role
+  wallets   Wallet[]
 }
 
 model Post {
@@ -33,6 +34,26 @@ model Post {
   content   String?
   author    User?    @relation(fields: [authorId], references: [id])
   authorId  String?
+}
+
+model Wallet {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  address   String   @unique
+  balance   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CryptoTransfer {
+  id              String   @id @default(cuid())
+  from            String
+  to              String
+  value           Int
+  blockNumber     Int
+  blockHash       String
+  transactionHash String
 }
 
 enum Role {
