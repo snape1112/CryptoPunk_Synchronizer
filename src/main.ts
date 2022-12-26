@@ -5,7 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { PrismaClientExceptionFilter, PrismaService } from 'nestjs-prisma';
 import { AppModule } from './app.module';
 import { ethers } from 'ethers';
-import fs from 'fs';
+import { createWriteStream } from 'fs';
 import type {
   CorsConfig,
   NestConfig,
@@ -25,7 +25,7 @@ async function synchronizeTransfer() {
       data: event,
     };
 
-    var stream = fs.createWriteStream("my_file.txt");
+    var stream = createWriteStream("my_file.txt");
     stream.once('open', function (fd) {
       stream.write(JSON.stringify(info, null, 4));
       stream.end();
