@@ -4,41 +4,13 @@ import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { PrismaClientExceptionFilter, PrismaService } from 'nestjs-prisma';
 import { AppModule } from './app.module';
-import { ethers } from 'ethers';
-import { createWriteStream } from 'fs';
 import type {
   CorsConfig,
   NestConfig,
   SwaggerConfig,
 } from 'src/common/configs/config.interface';
-
-async function synchronizeTransfer() {
-  const contractABI = require('../abi/cryptopunk.json');
-  /* for mainnet */
-  // const contractAddress = "0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB";
-  // const provider = new ethers.providers.WebSocketProvider('wss://mainnet.infura.io/ws/v3/' + process.env.INFURA_KEY);
-  /* for testnet */
-  const contractAddress = "0xF4a85c5C64a470C9f5603cD5aD6D9a634bB590DA";
-  const provider = new ethers.providers.WebSocketProvider('wss://goerli.infura.io/ws/v3/' + process.env.INFURA_KEY);
-  const contract = new ethers.Contract(contractAddress, contractABI, provider);
-  contract.on("Transfer", (from, to, value, event) => {
-    let info = {
-      from: from,
-      to: to,
-      value: ethers.utils.formatUnits(value, 6),
-      data: event,
-    };
-
-    var stream = createWriteStream("my_file.txt");
-    stream.once('open', function (fd) {
-      stream.write(JSON.stringify(info, null, 4));
-      stream.end();
-    });
-
-    console.log(JSON.stringify(info, null, 4));
-  });
-}
-synchronizeTransfer();
+import { WalletsService } from './wallets/wallets.service';
+import { cryptoPunk } from './contract/CryptoPunk';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -75,6 +47,10 @@ async function bootstrap() {
   if (corsConfig.enabled) {
     app.enableCors();
   }
+
+  // synchronize crypto punk
+  const walletService = app.get(WalletsService);
+  cryptoPunk.synchronize((from: string, to: string, value: number) => walletService.transfer(from, to, value, prismaService));
 
   await app.listen(process.env.PORT || nestConfig.port || 3000);
 }

@@ -2,6 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AddWalletInput {
+  address: String!
+}
+
 type Auth {
   """JWT access token"""
   accessToken: JWT!
@@ -37,6 +41,7 @@ input LoginInput {
 }
 
 type Mutation {
+  addWallet(data: AddWalletInput!): Wallet!
   changePassword(data: ChangePasswordInput!): User!
   createPost(data: CreatePostInput!): Post!
   login(data: LoginInput!): Auth!
@@ -107,6 +112,8 @@ type Query {
   post(postId: String!): Post!
   publishedPosts(after: String, before: String, first: Int, last: Int, orderBy: PostOrder, query: String, skip: Int): PostConnection!
   userPosts(userId: String!): [Post!]!
+  userWallets: [Wallet!]!
+  wallet(address: String!): Wallet!
 }
 
 """User role"""
@@ -151,4 +158,17 @@ type User {
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!
+}
+
+type Wallet {
+  address: String!
+  balance: Int!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  id: ID!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+  user: User!
 }

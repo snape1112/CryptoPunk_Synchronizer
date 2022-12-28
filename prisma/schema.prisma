@@ -46,16 +46,6 @@ model Wallet {
   updatedAt DateTime @updatedAt
 }
 
-model CryptoTransfer {
-  id              String   @id @default(cuid())
-  from            String
-  to              String
-  value           Int
-  blockNumber     Int
-  blockHash       String
-  transactionHash String
-}
-
 enum Role {
   ADMIN
   USER

@@ -36,16 +36,6 @@ Table Wallet {
   updatedAt DateTime [not null]
 }
 
-Table CryptoTransfer {
-  id String [pk]
-  from String [not null]
-  to String [not null]
-  value Int [not null]
-  blockNumber Int [not null]
-  blockHash String [not null]
-  transactionHash String [not null]
-}
-
 Enum Role {
   ADMIN
   USER
