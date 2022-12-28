@@ -21,7 +21,7 @@ export class UsersResolver {
   constructor(
     private usersService: UsersService,
     private prisma: PrismaService
-  ) {}
+  ) { }
 
   @Query(() => User)
   async me(@UserEntity() user: User): Promise<User> {
@@ -48,10 +48,5 @@ export class UsersResolver {
       user.password,
       changePassword
     );
-  }
-
-  @ResolveField('posts')
-  posts(@Parent() author: User) {
-    return this.prisma.user.findUnique({ where: { id: author.id } }).posts();
   }
 }

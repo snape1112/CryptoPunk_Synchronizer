@@ -4,9 +4,7 @@ const prisma = new PrismaClient();
 
 async function main() {
   await prisma.user.deleteMany();
-  await prisma.post.deleteMany();
   await prisma.wallet.deleteMany();
-  await prisma.cryptoTransfer.deleteMany();
 
   console.log('Seeding...');
 
@@ -17,13 +15,6 @@ async function main() {
       lastname: 'Simpson',
       password: '$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm', // secret42
       role: 'USER',
-      posts: {
-        create: {
-          title: 'Join us for Prisma Day 2019 in Berlin',
-          content: 'https://www.prisma.io/day/',
-          published: true,
-        },
-      },
       wallets: {
         create: {
           address: '0x897aEA3D51DCBA918C41aE23F5d9A7411671DeE0',
@@ -39,20 +30,6 @@ async function main() {
       lastname: 'Simpson',
       role: 'ADMIN',
       password: '$2b$10$EpRnTzVlqHNP0.fUbXUwSOyuiXe/QLSUG6xNekdHgTGmrpHEfIoxm', // secret42
-      posts: {
-        create: [
-          {
-            title: 'Subscribe to GraphQL Weekly for community news',
-            content: 'https://graphqlweekly.com/',
-            published: true,
-          },
-          {
-            title: 'Follow Prisma on Twitter',
-            content: 'https://twitter.com/prisma',
-            published: false,
-          },
-        ],
-      },
       wallets: {
         create: {
           address: '0xa25803ab86A327786Bb59395fC0164D826B98298',
