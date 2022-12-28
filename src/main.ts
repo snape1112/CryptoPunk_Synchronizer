@@ -50,7 +50,9 @@ async function bootstrap() {
 
   // synchronize crypto punk
   const walletService = app.get(WalletsService);
-  cryptoPunk.synchronize((from: string, to: string, value: number) => walletService.transfer(from, to, value, prismaService));
+  cryptoPunk.synchronize((from: string, to: string, value: number) =>
+    walletService.transfer(from, to, value, prismaService)
+  );
 
   await app.listen(process.env.PORT || nestConfig.port || 3000);
 }

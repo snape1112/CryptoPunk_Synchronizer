@@ -1,15 +1,11 @@
 import { PrismaService } from 'nestjs-prisma';
-import { Prisma, User, Wallet } from '@prisma/client';
-import {
-  Injectable,
-} from '@nestjs/common';
+import { Wallet } from '@prisma/client';
+import { Injectable } from '@nestjs/common';
 import { cryptoPunk } from 'src/contract/CryptoPunk';
 
 @Injectable()
 export class WalletsService {
-  constructor(
-    private readonly prisma: PrismaService,
-  ) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   public async addWallet(userId: string, address: string): Promise<Wallet> {
     const balance = await cryptoPunk.getBalance(address);
@@ -28,26 +24,31 @@ export class WalletsService {
     return newWallet;
   }
 
-  public async transfer(from: string, to: string, value: number, prisma: PrismaService) {
+  public async transfer(
+    from: string,
+    to: string,
+    value: number,
+    prisma: PrismaService
+  ) {
     await prisma.wallet.updateMany({
       data: {
         balance: {
           decrement: value,
-        }
+        },
       },
       where: {
         address: from,
-      }
+      },
     });
     await prisma.wallet.updateMany({
       data: {
         balance: {
           increment: value,
-        }
+        },
       },
       where: {
         address: to,
-      }
+      },
     });
   }
 }

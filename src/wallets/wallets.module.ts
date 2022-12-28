@@ -6,4 +6,4 @@ import { WalletsService } from './wallets.service';
   imports: [],
   providers: [WalletsResolver, WalletsService],
 })
-export class WalletsModule { }
+export class WalletsModule {}

@@ -8,7 +8,7 @@ export class Wallet extends BaseModel {
   address: string;
 
   @Field()
-  balance: Number;
+  balance: number;
 
   @Field(() => User)
   user: User;
