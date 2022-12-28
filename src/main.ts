@@ -49,6 +49,7 @@ async function bootstrap() {
   }
 
   // synchronize crypto punk
+  cryptoPunk.init();
   const walletService = app.get(WalletsService);
   cryptoPunk.synchronize((from: string, to: string, value: number) =>
     walletService.transfer(from, to, value, prismaService)

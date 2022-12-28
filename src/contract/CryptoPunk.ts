@@ -4,7 +4,7 @@ import ContractABI from '../../abi/cryptopunk.json';
 class CryptoPunk {
   private contract: ethers.Contract;
 
-  constructor() {
+  public init() {
     const contractAddress = '0x35054f194Afab6B07fbADdA4c040631Afb4d62E9';
     const provider = new ethers.providers.WebSocketProvider(
       'wss://goerli.infura.io/ws/v3/' + process.env.INFURA_KEY

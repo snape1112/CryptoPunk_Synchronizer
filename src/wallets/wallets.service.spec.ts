@@ -3,7 +3,7 @@ import { PrismaService } from 'nestjs-prisma';
 import { ConfigService } from '@nestjs/config';
 import { WalletsService } from './wallets.service';
 
-describe('PasswordService', () => {
+describe('WalletsService', () => {
   let service: WalletsService;
 
   beforeEach(async () => {
